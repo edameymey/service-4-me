@@ -1,0 +1,25 @@
+{
+  "name": "itfest-2026",
+  "version": "1.0.0",
+  "description": "A peer to peer platform for exchanging services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edameymey/service-4-me.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/edameymey/service-4-me/issues"
+  },
+  "homepage": "https://github.com/edameymey/service-4-me#readme",
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}
