@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
+import type { ChangeEvent, FocusEvent, KeyboardEvent } from 'react';
 import { useEffect, useRef, useState } from 'react';
 
 const topNavPrimaryItems = [
@@ -33,6 +34,49 @@ const MainNavbar = () => {
     console.log('[navbar-action]', { action, payload });
   };
 
+  const handleTopNavClick = (item: { label: string; href: string }) => {
+    router.push(item.href);
+    logAction('top-nav-click', item.label);
+  };
+
+  const handleTopNavExtraClick = (item: { label: string; href: string }) => {
+    router.push(item.href);
+    logAction('top-nav-extra-click', item.label);
+  };
+
+  const handleToggleFeaturesExpand = () => {
+    const nextExpanded = !isFeaturesExpanded;
+    setIsFeaturesExpanded(nextExpanded);
+    setIsExpandedSearchActive(false);
+    logAction(
+      'toggle-features-expand',
+      nextExpanded ? 'expanded' : 'collapsed',
+    );
+  };
+
+  const handleMobileNavClick = (item: { label: string; href: string }) => {
+    router.push(item.href);
+    setIsMobileMenuOpen(false);
+    logAction('mobile-nav-click', item.label);
+  };
+
+  const handleSearchInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+    logAction('search-skills-change', event.target.value);
+  };
+
+  const handleSearchInputBlur = (_event: FocusEvent<HTMLInputElement>) => {
+    if (isFeaturesExpanded) {
+      setIsExpandedSearchActive(false);
+    }
+  };
+
+  const handleSearchInputKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Escape' && isFeaturesExpanded) {
+      setIsExpandedSearchActive(false);
+    }
+  };
+
   return (
     <header className="flex flex-col gap-3 rounded-t-xl border border-[#dfe3e8] bg-white px-4 py-3 md:flex-row md:items-center md:justify-between md:px-6">
       <div className="flex items-center justify-between gap-7">
@@ -42,7 +86,7 @@ const MainNavbar = () => {
             alt="Service4Me logo"
             width={28}
             height={28}
-            className="h-7 w-7 rounded-full object-cover"
+            className="h-7 w-7 cursor-pointer rounded-full object-cover"
             priority
             onClick={() => router.push('/profile')}
           />
@@ -80,10 +124,7 @@ const MainNavbar = () => {
               <button
                 key={item.label}
                 type="button"
-                onClick={() => {
-                  router.push(item.href);
-                  logAction('top-nav-click', item.label);
-                }}
+                onClick={() => handleTopNavClick(item)}
                 className={`whitespace-nowrap text-sm font-semibold transition hover:text-[#5f955d] ${
                   pathname === item.href ? 'text-[#5f955d]' : 'text-[#253042]'
                 }`}
@@ -104,10 +145,7 @@ const MainNavbar = () => {
                   <button
                     key={item.label}
                     type="button"
-                    onClick={() => {
-                      router.push(item.href);
-                      logAction('top-nav-extra-click', item.label);
-                    }}
+                    onClick={() => handleTopNavExtraClick(item)}
                     className={`whitespace-nowrap text-sm font-semibold transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-[#5f955d] ${
                       isFeaturesExpanded
                         ? 'pointer-events-auto translate-x-0 opacity-100'
@@ -126,15 +164,7 @@ const MainNavbar = () => {
 
             <button
               type="button"
-              onClick={() => {
-                const nextExpanded = !isFeaturesExpanded;
-                setIsFeaturesExpanded(nextExpanded);
-                setIsExpandedSearchActive(false);
-                logAction(
-                  'toggle-features-expand',
-                  nextExpanded ? 'expanded' : 'collapsed',
-                );
-              }}
+              onClick={handleToggleFeaturesExpand}
               aria-label={
                 isFeaturesExpanded ? 'Collapse features' : 'Show more features'
               }
@@ -158,11 +188,7 @@ const MainNavbar = () => {
             <button
               key={item.label}
               type="button"
-              onClick={() => {
-                router.push(item.href);
-                setIsMobileMenuOpen(false);
-                logAction('mobile-nav-click', item.label);
-              }}
+              onClick={() => handleMobileNavClick(item)}
               className={`rounded-lg px-3 py-2 text-left text-sm font-semibold transition ${
                 pathname === item.href
                   ? 'bg-[#edf4e7] text-[#5f955d]'
@@ -208,20 +234,9 @@ const MainNavbar = () => {
             <input
               ref={searchInputRef}
               value={searchValue}
-              onChange={(event) => {
-                setSearchValue(event.target.value);
-                logAction('search-skills-change', event.target.value);
-              }}
-              onBlur={() => {
-                if (isFeaturesExpanded) {
-                  setIsExpandedSearchActive(false);
-                }
-              }}
-              onKeyDown={(event) => {
-                if (event.key === 'Escape' && isFeaturesExpanded) {
-                  setIsExpandedSearchActive(false);
-                }
-              }}
+              onChange={handleSearchInputChange}
+              onBlur={handleSearchInputBlur}
+              onKeyDown={handleSearchInputKeyDown}
               type="text"
               placeholder="Search skills..."
               className="h-11 w-full rounded-xl border border-[#e3e8de] bg-[#f3f6ee] pl-10 pr-3 text-sm font-medium text-[#253042] outline-none transition placeholder:text-[#93a08f] focus:border-[#8fb57c]"

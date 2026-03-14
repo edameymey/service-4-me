@@ -1,11 +1,10 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
 import type { Review, Skill, Trade } from '@/types/profile';
 
 const navItems = [
-  { id: 'profile', label: 'Profile', icon: 'user', href: '/profile' },
-  { id: 'messages', label: 'Messages', icon: 'message', href: '/chat' },
+  { id: 'profile', label: 'Profile', icon: 'user', active: true },
+  { id: 'messages', label: 'Messages', icon: 'message', active: false },
 ] as const;
 
 const lookingFor = ['Car Repair', 'Photography', 'Home Painting'] as const;
@@ -74,11 +73,12 @@ const profile = {
 };
 
 const ProfilePage = () => {
-  const router = useRouter();
-  const pathname = usePathname();
-
   const logAction = (action: string, payload?: string) => {
     console.log('[profile-action]', { action, payload });
+  };
+
+  const handleAddLookingFor = () => {
+    logAction('add-looking-for');
   };
 
   return (
@@ -133,12 +133,9 @@ const ProfilePage = () => {
                 <li key={item.id}>
                   <button
                     type="button"
-                    onClick={() => {
-                      router.push(item.href);
-                      logAction('navigate-profile-menu', item.id);
-                    }}
+                    onClick={() => logAction('navigate-profile-menu', item.id)}
                     className={`flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition ${
-                      pathname === item.href
+                      item.active
                         ? 'bg-[#edf4e7] text-[#5f955d]'
                         : 'text-[#637381] hover:bg-[#f5f8fa]'
                     }`}
@@ -158,7 +155,7 @@ const ProfilePage = () => {
               </h2>
               <button
                 type="button"
-                onClick={() => logAction('add-looking-for')}
+                onClick={handleAddLookingFor}
                 aria-label="Add a looking for item"
                 className="grid h-7 w-7 place-items-center rounded-full bg-[#edf4e7] text-lg font-bold leading-none text-[#5f955d] transition hover:bg-[#e2eed8]"
               >
