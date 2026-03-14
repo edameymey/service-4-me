@@ -84,11 +84,11 @@ const MainNavbar = () => {
           <Image
             src="/logo/logo_it.png"
             alt="Service4Me logo"
-            width={28}
-            height={28}
-            className="h-7 w-7 cursor-pointer rounded-full object-cover"
+            width={34}
+            height={34}
+            className="h-8 w-8 cursor-pointer rounded-full object-cover"
             priority
-            onClick={() => router.push('/profile')}
+            onClick={() => router.push('/')}
           />
           <button
             type="button"
