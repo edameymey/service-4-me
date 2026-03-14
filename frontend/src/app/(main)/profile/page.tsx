@@ -1,12 +1,20 @@
 'use client';
 
 import Image from 'next/image';
+import { useEffect, useRef, useState } from 'react';
 
 type Skill = {
   id: string;
   level: 'EXPERT' | 'ADVANCED';
   title: string;
   description: string;
+};
+
+type Trade = {
+  id: string;
+  status: 'OPEN' | 'IN PROGRESS';
+  title: string;
+  details: string;
 };
 
 type Review = {
@@ -22,9 +30,14 @@ type Review = {
 const navItems = [
   { id: 'profile', label: 'Profile', icon: 'user', active: true },
   { id: 'messages', label: 'Messages', icon: 'message', active: false },
-  { id: 'exchanges', label: 'My Exchanges', icon: 'swap', active: false },
-  { id: 'wishlist', label: 'Wishlist', icon: 'heart', active: false },
 ] as const;
+
+const topNavPrimaryItems = [
+  'How it Works',
+  'Browse Swaps',
+  'Community',
+] as const;
+const topNavExtraItems = ['Messages', 'My Exchanges'] as const;
 
 const lookingFor = ['Car Repair', 'Photography', 'Home Painting'] as const;
 
@@ -42,6 +55,23 @@ const skills: Skill[] = [
     title: 'Math Expert',
     description:
       'Tutoring services for Algebra, Calculus, and Statistics. I can help students prepare for standardized tests like SAT or GRE.',
+  },
+];
+
+const trades: Trade[] = [
+  {
+    id: 'trade-1',
+    status: 'OPEN',
+    title: '2h ESL Session for Home Painting Advice',
+    details:
+      'Looking to exchange two hours of conversational English coaching for guidance on choosing colors and materials for a small room repaint.',
+  },
+  {
+    id: 'trade-2',
+    status: 'IN PROGRESS',
+    title: 'SAT Math Prep for Car Maintenance Basics',
+    details:
+      'Currently exchanging SAT math prep support in return for a practical walkthrough of essential car maintenance checks.',
   },
 ];
 
@@ -75,44 +105,181 @@ const profile = {
 };
 
 const ProfilePage = () => {
+  const [searchValue, setSearchValue] = useState('');
+  const [isFeaturesExpanded, setIsFeaturesExpanded] = useState(false);
+  const [isExpandedSearchActive, setIsExpandedSearchActive] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isExpandedSearchActive) {
+      searchInputRef.current?.focus();
+    }
+  }, [isExpandedSearchActive]);
+
   const logAction = (action: string, payload?: string) => {
     console.log('[profile-action]', { action, payload });
   };
 
   return (
-    <main className="min-h-screen bg-[#f2f4f7] text-[#161c24]">
-      <div className="mx-auto flex max-w-6xl flex-col">
-        <header className="mt-2 flex items-center justify-between rounded-t-xl border border-[#dfe3e8] bg-white px-5 py-3">
-          <div className="flex items-center gap-2.5">
-            <Image
-              src="/logo/logo_it.png"
-              alt="Service4Me logo"
-              width={28}
-              height={28}
-              className="h-7 w-7 rounded-full object-cover"
-              priority
-            />
-            <span className="text-base font-semibold tracking-tight">
-              Service4Me
-            </span>
+    <main className="min-h-screen w-full bg-[#f2f4f7] text-[#161c24]">
+      <div className="flex min-h-screen w-full flex-col">
+        <header className="flex flex-col gap-3 rounded-t-xl border border-[#dfe3e8] bg-white px-4 py-3 md:flex-row md:items-center md:justify-between md:px-6">
+          <div className="flex items-center gap-7">
+            <div className="flex items-center gap-2.5">
+              <Image
+                src="/logo/logo_it.png"
+                alt="Service4Me logo"
+                width={28}
+                height={28}
+                className="h-7 w-7 rounded-full object-cover"
+                priority
+              />
+              <span className="text-2xl font-bold tracking-tight text-[#253042]">
+                Service4Me
+              </span>
+            </div>
+
+            <div className="hidden md:block">
+              <nav className="flex flex-nowrap items-center gap-8">
+                {topNavPrimaryItems.map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => logAction('top-nav-click', item)}
+                    className="whitespace-nowrap text-sm font-semibold text-[#253042] transition hover:text-[#5f955d]"
+                  >
+                    {item}
+                  </button>
+                ))}
+
+                <div
+                  className={`overflow-hidden [will-change:max-width,opacity,transform] transition-[max-width,opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    isFeaturesExpanded
+                      ? 'max-w-[420px] translate-x-0 opacity-100'
+                      : 'max-w-0 -translate-x-2 opacity-0'
+                  }`}
+                >
+                  <div className="flex flex-nowrap items-center gap-8">
+                    {topNavExtraItems.map((item) => (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => logAction('top-nav-extra-click', item)}
+                        className={`whitespace-nowrap text-sm font-semibold text-[#253042] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-[#5f955d] ${
+                          isFeaturesExpanded
+                            ? 'pointer-events-auto translate-x-0 opacity-100'
+                            : 'pointer-events-none translate-x-1 opacity-0'
+                        }`}
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    const nextExpanded = !isFeaturesExpanded;
+                    setIsFeaturesExpanded(nextExpanded);
+                    setIsExpandedSearchActive(false);
+                    logAction(
+                      'toggle-features-expand',
+                      nextExpanded ? 'expanded' : 'collapsed',
+                    );
+                  }}
+                  aria-label={
+                    isFeaturesExpanded
+                      ? 'Collapse features'
+                      : 'Show more features'
+                  }
+                  className="px-1 text-xl font-bold leading-none text-[#6f9662] transition hover:text-[#4f7d48]"
+                >
+                  <span className="inline-block">
+                    {isFeaturesExpanded ? '<' : '>'}
+                  </span>
+                </button>
+              </nav>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex w-full items-center gap-3 md:w-auto">
+            <div
+              className={`relative h-11 flex-1 overflow-hidden [will-change:width] md:flex-none md:transition-[width] md:duration-700 md:ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                isFeaturesExpanded
+                  ? isExpandedSearchActive
+                    ? 'md:w-[220px]'
+                    : 'md:w-11'
+                  : 'md:w-[320px]'
+              }`}
+            >
+              <form
+                className={`absolute inset-0 transform-gpu transition-[opacity,transform,filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                  isFeaturesExpanded && !isExpandedSearchActive
+                    ? 'pointer-events-none translate-x-2 scale-[0.97] opacity-0 blur-[1px] delay-0'
+                    : 'pointer-events-auto translate-x-0 scale-100 opacity-100 blur-0 delay-100'
+                }`}
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  logAction('search-skills-submit', searchValue.trim());
+                }}
+              >
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2">
+                  <SearchIcon />
+                </span>
+                <input
+                  ref={searchInputRef}
+                  value={searchValue}
+                  onChange={(event) => {
+                    setSearchValue(event.target.value);
+                    logAction('search-skills-change', event.target.value);
+                  }}
+                  onBlur={() => {
+                    if (isFeaturesExpanded) {
+                      setIsExpandedSearchActive(false);
+                    }
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Escape' && isFeaturesExpanded) {
+                      setIsExpandedSearchActive(false);
+                    }
+                  }}
+                  type="text"
+                  placeholder="Search skills..."
+                  className="h-11 w-full rounded-xl border border-[#e3e8de] bg-[#f3f6ee] pl-10 pr-3 text-sm font-medium text-[#253042] outline-none transition placeholder:text-[#93a08f] focus:border-[#8fb57c]"
+                />
+              </form>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setIsExpandedSearchActive(true);
+                  logAction('search-icon-click');
+                }}
+                aria-label="Search skills"
+                className={`absolute inset-0 grid transform-gpu place-items-center rounded-xl border border-[#e3e8de] bg-[#f3f6ee] text-[#70806f] transition-[opacity,transform,filter,background-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[#ecf1e7] ${
+                  isFeaturesExpanded && !isExpandedSearchActive
+                    ? 'pointer-events-auto translate-x-0 scale-100 opacity-100 blur-0 delay-120'
+                    : 'pointer-events-none -translate-x-2 scale-[0.97] opacity-0 blur-[1px] delay-0'
+                }`}
+              >
+                <SearchIcon />
+              </button>
+            </div>
+
             <button
               type="button"
-              onClick={() => logAction('open-notifications')}
-              className="grid h-8 w-8 place-items-center rounded-full bg-[#f2f4f7] text-[#637381] transition hover:bg-[#e7ebf0]"
-              aria-label="Open notifications"
+              onClick={() => logAction('login-click')}
+              className="rounded-xl bg-[#eef3e7] px-4 py-2.5 text-sm font-bold text-[#6f9662] transition hover:bg-[#e5eddd]"
             >
-              <BellIcon />
+              Login
             </button>
             <button
               type="button"
-              onClick={() => logAction('open-settings')}
-              className="grid h-8 w-8 place-items-center rounded-full bg-[#f2f4f7] text-[#637381] transition hover:bg-[#e7ebf0]"
-              aria-label="Open settings"
+              onClick={() => logAction('sign-up-click')}
+              className="whitespace-nowrap rounded-xl bg-[#79a962] px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#6a9955]"
             >
-              <GearIcon />
+              Sign Up
             </button>
           </div>
         </header>
@@ -188,9 +355,19 @@ const ProfilePage = () => {
               </div>
 
               <div className="rounded-3xl border border-[#dfe3e8] bg-white p-4">
-                <h2 className="flex items-center gap-2 text-base font-semibold">
-                  <SearchIcon />I am looking for
-                </h2>
+                <div className="flex items-center justify-between gap-3">
+                  <h2 className="flex items-center gap-2 text-base font-semibold">
+                    <SearchIcon />I am looking for
+                  </h2>
+                  <button
+                    type="button"
+                    onClick={() => logAction('add-looking-for')}
+                    aria-label="Add a looking for item"
+                    className="grid h-7 w-7 place-items-center rounded-full bg-[#edf4e7] text-lg font-bold leading-none text-[#5f955d] transition hover:bg-[#e2eed8]"
+                  >
+                    +
+                  </button>
+                </div>
                 <ul className="mt-3 space-y-2">
                   {lookingFor.map((item) => (
                     <li key={item}>
@@ -229,6 +406,41 @@ const ProfilePage = () => {
                       </div>
                       <p className="mt-1.5 text-sm leading-6 text-[#637381]">
                         {skill.description}
+                      </p>
+                    </article>
+                  ))}
+                </div>
+              </section>
+
+              <section className="rounded-3xl border border-[#dfe3e8] bg-white p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <h2 className="flex items-center gap-2 text-2xl font-bold tracking-tight">
+                    <SwapBoxIcon />
+                    My Trades
+                  </h2>
+                  <button
+                    type="button"
+                    onClick={() => logAction('view-all-trades')}
+                    className="text-sm font-semibold text-[#5f955d] transition hover:text-[#4f7f4d]"
+                  >
+                    View all
+                  </button>
+                </div>
+
+                <div className="mt-4 space-y-3">
+                  {trades.map((trade) => (
+                    <article
+                      key={trade.id}
+                      className="rounded-2xl border border-[#dfe3e8] bg-[#fbfcfd] p-4"
+                    >
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-md bg-[#253042] px-2 py-0.5 text-[11px] font-bold text-white">
+                          {trade.status}
+                        </span>
+                        <h3 className="text-lg font-semibold">{trade.title}</h3>
+                      </div>
+                      <p className="mt-1.5 text-sm leading-6 text-[#637381]">
+                        {trade.details}
                       </p>
                     </article>
                   ))}
@@ -289,40 +501,10 @@ const ProfilePage = () => {
             </div>
           </div>
         </section>
-
-        <footer className="rounded-b-xl border-x border-b border-[#dfe3e8] bg-[#eef1f4] px-4 py-5 text-center text-xs text-[#8d99a7] sm:px-8">
-          © 2024 Service4Me Inc. Exchange value, build community.
-        </footer>
       </div>
     </main>
   );
 };
-
-const BellIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    className="h-4 w-4"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 10-12 0v3.2a2 2 0 01-.6 1.4L4 17h5" />
-    <path d="M10 19a2 2 0 004 0" />
-  </svg>
-);
-
-const GearIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    className="h-4 w-4"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path d="M12 15.5A3.5 3.5 0 1012 8.5a3.5 3.5 0 000 7z" />
-    <path d="M19.4 15a1 1 0 00.2 1.1l.1.1a1 1 0 010 1.4l-1.2 1.2a1 1 0 01-1.4 0l-.1-.1a1 1 0 00-1.1-.2 1 1 0 00-.6.9V20a1 1 0 01-1 1h-1.6a1 1 0 01-1-1v-.2a1 1 0 00-.6-.9 1 1 0 00-1.1.2l-.1.1a1 1 0 01-1.4 0L4.3 18a1 1 0 010-1.4l.1-.1a1 1 0 00.2-1.1 1 1 0 00-.9-.6H3.5a1 1 0 01-1-1v-1.6a1 1 0 011-1h.2a1 1 0 00.9-.6 1 1 0 00-.2-1.1l-.1-.1a1 1 0 010-1.4l1.2-1.2a1 1 0 011.4 0l.1.1a1 1 0 001.1.2h.1a1 1 0 00.6-.9V4a1 1 0 011-1h1.6a1 1 0 011 1v.2a1 1 0 00.6.9h.1a1 1 0 001.1-.2l.1-.1a1 1 0 011.4 0l1.2 1.2a1 1 0 010 1.4l-.1.1a1 1 0 00-.2 1.1v.1a1 1 0 00.9.6h.2a1 1 0 011 1v1.6a1 1 0 01-1 1h-.2a1 1 0 00-.9.6V15z" />
-  </svg>
-);
 
 const PencilIcon = () => (
   <svg
@@ -380,6 +562,20 @@ const StarBoxIcon = () => (
     fill="currentColor"
   >
     <path d="M4 4h16a1 1 0 011 1v14a1 1 0 01-1 1H4a1 1 0 01-1-1V5a1 1 0 011-1zm8 3l1.8 3.6 4 .6-2.9 2.8.7 4-3.6-1.9L8.4 18l.7-4-2.9-2.8 4-.6L12 7z" />
+  </svg>
+);
+
+const SwapBoxIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    className="h-5 w-5 text-[#5f955d]"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <path d="M7 7h11l-3-3" />
+    <path d="M17 17H6l3 3" />
+    <rect x="3" y="3" width="18" height="18" rx="3" />
   </svg>
 );
 
