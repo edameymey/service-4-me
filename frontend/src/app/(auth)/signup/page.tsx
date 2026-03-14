@@ -6,12 +6,14 @@ import { FormEvent, useMemo, useState } from 'react';
 import { SignupErrors, SignupTouched } from '../types/signup';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_PATTERN = /^\+?[0-9\s\-()]{7,20}$/;
 
 export default function SignupPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
+    phoneNumber: '',
     password: '',
     confirmPassword: '',
   });
@@ -19,14 +21,27 @@ export default function SignupPage() {
   const [touched, setTouched] = useState<SignupTouched>({
     fullName: false,
     email: false,
+    phoneNumber: false,
     password: false,
     confirmPassword: false,
   });
+
+  const isValidPhoneNumber = (phoneNumber: string) => {
+    const trimmed = phoneNumber.trim();
+    const digitsOnly = trimmed.replace(/\D/g, '');
+
+    return (
+      PHONE_PATTERN.test(trimmed) &&
+      digitsOnly.length >= 7 &&
+      digitsOnly.length <= 15
+    );
+  };
 
   const canSubmit = useMemo(() => {
     return (
       formData.fullName.trim().length > 0 &&
       EMAIL_PATTERN.test(formData.email.trim()) &&
+      isValidPhoneNumber(formData.phoneNumber) &&
       formData.password.length >= 8 &&
       formData.confirmPassword.length > 0 &&
       formData.confirmPassword === formData.password
@@ -34,6 +49,7 @@ export default function SignupPage() {
   }, [
     formData.confirmPassword,
     formData.email,
+    formData.phoneNumber,
     formData.fullName,
     formData.password,
   ]);
@@ -54,6 +70,16 @@ export default function SignupPage() {
       return EMAIL_PATTERN.test(values.email.trim())
         ? undefined
         : 'Enter a valid email address.';
+    }
+
+    if (field === 'phoneNumber') {
+      if (!values.phoneNumber.trim()) {
+        return 'Phone number is required.';
+      }
+
+      return isValidPhoneNumber(values.phoneNumber)
+        ? undefined
+        : 'Please enter a valid phone number.';
     }
 
     if (field === 'password') {
@@ -117,6 +143,7 @@ export default function SignupPage() {
     const nextErrors: SignupErrors = {
       fullName: getFieldError('fullName'),
       email: getFieldError('email'),
+      phoneNumber: getFieldError('phoneNumber'),
       password: getFieldError('password'),
       confirmPassword: getFieldError('confirmPassword'),
     };
@@ -125,12 +152,14 @@ export default function SignupPage() {
     setTouched({
       fullName: true,
       email: true,
+      phoneNumber: true,
       password: true,
       confirmPassword: true,
     });
     return (
       !nextErrors.fullName &&
       !nextErrors.email &&
+      !nextErrors.phoneNumber &&
       !nextErrors.password &&
       !nextErrors.confirmPassword
     );
@@ -146,6 +175,7 @@ export default function SignupPage() {
     console.log('signup submit', {
       fullName: formData.fullName,
       email: formData.email,
+      phoneNumber: formData.phoneNumber,
       password: formData.password,
       confirmPassword: formData.confirmPassword,
     });
@@ -208,6 +238,24 @@ export default function SignupPage() {
             onBlur={() => handleBlur('email')}
           />
           {errors.email ? <p className="auth-error">{errors.email}</p> : null}
+        </label>
+
+        <label className="auth-field-label" htmlFor="signup-phone-number">
+          Phone number*
+          <input
+            id="signup-phone-number"
+            type="tel"
+            className="auth-input"
+            placeholder="+40 700 000 000"
+            value={formData.phoneNumber}
+            onChange={(event) =>
+              handleFieldChange('phoneNumber', event.target.value)
+            }
+            onBlur={() => handleBlur('phoneNumber')}
+          />
+          {errors.phoneNumber ? (
+            <p className="auth-error">{errors.phoneNumber}</p>
+          ) : null}
         </label>
 
         <label className="auth-field-label" htmlFor="signup-password">
