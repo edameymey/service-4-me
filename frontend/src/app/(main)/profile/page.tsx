@@ -1,6 +1,6 @@
 'use client';
 
-import type { Review, Skill, Trade } from '@/types/profile';
+import type { Review, Skill, Trade } from '@/app/(main)/profile/types/profile';
 
 const navItems = [
   { id: 'profile', label: 'Profile', icon: 'user', active: true },
@@ -134,11 +134,10 @@ const ProfilePage = () => {
                   <button
                     type="button"
                     onClick={() => logAction('navigate-profile-menu', item.id)}
-                    className={`flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition ${
-                      item.active
+                    className={`flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition ${item.active
                         ? 'bg-[#edf4e7] text-[#5f955d]'
                         : 'text-[#637381] hover:bg-[#f5f8fa]'
-                    }`}
+                      }`}
                   >
                     <MenuIcon icon={item.icon} />
                     {item.label}
