@@ -1,4 +1,4 @@
-import { steps, values } from '@/constants/info';
+import { steps, values } from '@/app/(main)/info/constants/info';
 
 export const StepIcon = ({
   icon,
