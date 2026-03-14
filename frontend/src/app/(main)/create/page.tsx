@@ -155,7 +155,7 @@ const CreatePage = () => {
 
   return (
     <div className="flex min-h-screen items-start justify-center bg-[#f2f4f7] px-4 py-10">
-      <div className="w-full max-w-xl rounded-2xl bg-white p-8 shadow-sm">
+      <div className="w-full max-w-3xl rounded-2xl bg-white p-8 shadow-sm">
         <div className="mb-7 flex rounded-full bg-[#f2f4f7] p-1">
           <button
             type="button"

@@ -92,7 +92,7 @@ const MainNavbar = () => {
           />
           <button
             type="button"
-            onClick={() => router.push('/profile')}
+            onClick={() => router.push('/')}
             className="text-2xl font-bold tracking-tight text-[#253042]"
           >
             Service4Me
@@ -110,9 +110,8 @@ const MainNavbar = () => {
           className="px-1 text-xl font-bold leading-none text-[#6f9662] transition hover:text-[#4f7d48] md:hidden"
         >
           <span
-            className={`inline-block transition-transform duration-300 ${
-              isMobileMenuOpen ? 'rotate-90' : 'rotate-0'
-            }`}
+            className={`inline-block transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-90' : 'rotate-0'
+              }`}
           >
             {'>'}
           </span>
@@ -125,20 +124,18 @@ const MainNavbar = () => {
                 key={item.label}
                 type="button"
                 onClick={() => handleTopNavClick(item)}
-                className={`whitespace-nowrap text-sm font-semibold transition hover:text-[#5f955d] ${
-                  pathname === item.href ? 'text-[#5f955d]' : 'text-[#253042]'
-                }`}
+                className={`whitespace-nowrap text-sm font-semibold transition hover:text-[#5f955d] ${pathname === item.href ? 'text-[#5f955d]' : 'text-[#253042]'
+                  }`}
               >
                 {item.label}
               </button>
             ))}
 
             <div
-              className={`overflow-hidden [will-change:max-width,opacity,transform] transition-[max-width,opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                isFeaturesExpanded
+              className={`overflow-hidden [will-change:max-width,opacity,transform] transition-[max-width,opacity,transform] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${isFeaturesExpanded
                   ? 'max-w-[420px] translate-x-0 opacity-100'
                   : 'max-w-0 -translate-x-2 opacity-0'
-              }`}
+                }`}
             >
               <div className="flex flex-nowrap items-center gap-4">
                 {topNavExtraItems.map((item) => (
@@ -146,15 +143,13 @@ const MainNavbar = () => {
                     key={item.label}
                     type="button"
                     onClick={() => handleTopNavExtraClick(item)}
-                    className={`whitespace-nowrap text-sm font-semibold transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-[#5f955d] ${
-                      isFeaturesExpanded
+                    className={`whitespace-nowrap text-sm font-semibold transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:text-[#5f955d] ${isFeaturesExpanded
                         ? 'pointer-events-auto translate-x-0 opacity-100'
                         : 'pointer-events-none translate-x-1 opacity-0'
-                    } ${
-                      pathname === item.href
+                      } ${pathname === item.href
                         ? 'text-[#5f955d]'
                         : 'text-[#253042]'
-                    }`}
+                      }`}
                   >
                     {item.label}
                   </button>
@@ -179,9 +174,8 @@ const MainNavbar = () => {
       </div>
 
       <div
-        className={`overflow-hidden transition-all duration-300 ease-out md:hidden ${
-          isMobileMenuOpen ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0'
-        }`}
+        className={`overflow-hidden transition-all duration-300 ease-out md:hidden ${isMobileMenuOpen ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0'
+          }`}
       >
         <nav className="mt-1 flex flex-col gap-1 rounded-xl border border-[#e7ebf0] bg-[#f8faf6] p-2">
           {[...topNavPrimaryItems, ...topNavExtraItems].map((item) => (
@@ -189,11 +183,10 @@ const MainNavbar = () => {
               key={item.label}
               type="button"
               onClick={() => handleMobileNavClick(item)}
-              className={`rounded-lg px-3 py-2 text-left text-sm font-semibold transition ${
-                pathname === item.href
+              className={`rounded-lg px-3 py-2 text-left text-sm font-semibold transition ${pathname === item.href
                   ? 'bg-[#edf4e7] text-[#5f955d]'
                   : 'text-[#253042] hover:bg-[#eef3e8]'
-              }`}
+                }`}
             >
               {item.label}
             </button>
@@ -203,20 +196,18 @@ const MainNavbar = () => {
 
       <div className="flex w-full items-center gap-3 md:w-auto">
         <div
-          className={`relative h-11 flex-1 overflow-hidden [will-change:width] md:flex-none md:transition-[width] md:duration-700 md:ease-[cubic-bezier(0.16,1,0.3,1)] ${
-            isFeaturesExpanded
+          className={`relative h-11 flex-1 overflow-hidden [will-change:width] md:flex-none md:transition-[width] md:duration-700 md:ease-[cubic-bezier(0.16,1,0.3,1)] ${isFeaturesExpanded
               ? isExpandedSearchActive
                 ? 'md:w-[220px]'
                 : 'md:w-11'
               : 'md:w-[320px]'
-          }`}
+            }`}
         >
           <form
-            className={`absolute inset-0 transform-gpu transition-[opacity,transform,filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              isFeaturesExpanded && !isExpandedSearchActive
+            className={`absolute inset-0 transform-gpu transition-[opacity,transform,filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${isFeaturesExpanded && !isExpandedSearchActive
                 ? 'pointer-events-none translate-x-2 scale-[0.97] opacity-0 blur-[1px] delay-0'
                 : 'pointer-events-auto translate-x-0 scale-100 opacity-100 blur-0 delay-100'
-            }`}
+              }`}
             onSubmit={(event) => {
               event.preventDefault();
               const query = searchValue.trim();
@@ -250,11 +241,10 @@ const MainNavbar = () => {
               logAction('search-icon-click');
             }}
             aria-label="Search skills"
-            className={`absolute inset-0 grid transform-gpu place-items-center rounded-xl border border-[#e3e8de] bg-[#f3f6ee] text-[#70806f] transition-[opacity,transform,filter,background-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[#ecf1e7] ${
-              isFeaturesExpanded && !isExpandedSearchActive
+            className={`absolute inset-0 grid transform-gpu place-items-center rounded-xl border border-[#e3e8de] bg-[#f3f6ee] text-[#70806f] transition-[opacity,transform,filter,background-color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[#ecf1e7] ${isFeaturesExpanded && !isExpandedSearchActive
                 ? 'pointer-events-auto translate-x-0 scale-100 opacity-100 blur-0 delay-120'
                 : 'pointer-events-none -translate-x-2 scale-[0.97] opacity-0 blur-[1px] delay-0'
-            }`}
+              }`}
           >
             <SearchIcon />
           </button>
