@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { faqs, steps, values } from '@/app/(main)/info/constants/info';
-import { StepIcon, ValueIcon } from '@/svgs/info';
+import { StepIcon, ValueIcon } from '@/app/(main)/info/svgs/info';
 
 const InfoPage = () => {
   return (
