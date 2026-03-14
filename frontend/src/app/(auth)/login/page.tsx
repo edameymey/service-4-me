@@ -1,21 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { FormEvent, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
+import type { LoginErrors, LoginTouched } from '../types/login';
 
-type LoginErrors = {
-  email?: string;
-  password?: string;
-};
-
-type LoginTouched = {
-  email: boolean;
-  password: boolean;
-};
-
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function LoginPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -29,7 +22,7 @@ export default function LoginPage() {
 
   const canSubmit = useMemo(() => {
     return (
-      emailPattern.test(formData.email.trim()) &&
+      EMAIL_PATTERN.test(formData.email.trim()) &&
       formData.password.trim().length > 0
     );
   }, [formData.email, formData.password]);
@@ -39,19 +32,15 @@ export default function LoginPage() {
       return 'Email is required.';
     }
 
-    if (!emailPattern.test(email.trim())) {
+    if (!EMAIL_PATTERN.test(email.trim())) {
       return 'Enter a valid email address.';
     }
-
-    return undefined;
   };
 
   const getPasswordError = (password: string) => {
     if (!password.trim()) {
       return 'Password is required.';
     }
-
-    return undefined;
   };
 
   const handleBlur = (field: keyof LoginTouched) => {
@@ -92,6 +81,47 @@ export default function LoginPage() {
       password: formData.password,
       remember: formData.remember,
     });
+
+    router.push('/');
+  };
+
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const nextEmail = event.target.value;
+
+    setFormData((previous) => ({
+      ...previous,
+      email: nextEmail,
+    }));
+
+    if (touched.email) {
+      setErrors((previous) => ({
+        ...previous,
+        email: getEmailError(nextEmail),
+      }));
+    }
+  };
+
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const nextPassword = event.target.value;
+
+    setFormData((previous) => ({
+      ...previous,
+      password: nextPassword,
+    }));
+
+    if (touched.password) {
+      setErrors((previous) => ({
+        ...previous,
+        password: getPasswordError(nextPassword),
+      }));
+    }
+  };
+
+  const handleRememberChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setFormData((previous) => ({
+      ...previous,
+      remember: event.target.checked,
+    }));
   };
 
   return (
@@ -127,20 +157,7 @@ export default function LoginPage() {
             className="auth-input"
             placeholder="name@example.com"
             value={formData.email}
-            onChange={(event) => {
-              const nextEmail = event.target.value;
-              setFormData((previous) => ({
-                ...previous,
-                email: nextEmail,
-              }));
-
-              if (touched.email) {
-                setErrors((previous) => ({
-                  ...previous,
-                  email: getEmailError(nextEmail),
-                }));
-              }
-            }}
+            onChange={handleEmailChange}
             onBlur={() => handleBlur('email')}
           />
           {errors.email ? <p className="auth-error">{errors.email}</p> : null}
@@ -154,20 +171,7 @@ export default function LoginPage() {
             className="auth-input"
             placeholder="Enter your password"
             value={formData.password}
-            onChange={(event) => {
-              const nextPassword = event.target.value;
-              setFormData((previous) => ({
-                ...previous,
-                password: nextPassword,
-              }));
-
-              if (touched.password) {
-                setErrors((previous) => ({
-                  ...previous,
-                  password: getPasswordError(nextPassword),
-                }));
-              }
-            }}
+            onChange={handlePasswordChange}
             onBlur={() => handleBlur('password')}
           />
           {errors.password ? (
@@ -181,12 +185,7 @@ export default function LoginPage() {
               id="remember-me"
               type="checkbox"
               checked={formData.remember}
-              onChange={(event) =>
-                setFormData((previous) => ({
-                  ...previous,
-                  remember: event.target.checked,
-                }))
-              }
+              onChange={handleRememberChange}
             />
             Remember me for 30 days
           </label>

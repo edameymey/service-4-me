@@ -1,25 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { FormEvent, useMemo, useState } from 'react';
+import { SignupErrors, SignupTouched } from '../types/signup';
 
-type SignupErrors = {
-  fullName?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-};
-
-type SignupTouched = {
-  fullName: boolean;
-  email: boolean;
-  password: boolean;
-  confirmPassword: boolean;
-};
-
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function SignupPage() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -37,7 +26,7 @@ export default function SignupPage() {
   const canSubmit = useMemo(() => {
     return (
       formData.fullName.trim().length > 0 &&
-      emailPattern.test(formData.email.trim()) &&
+      EMAIL_PATTERN.test(formData.email.trim()) &&
       formData.password.length >= 8 &&
       formData.confirmPassword.length > 0 &&
       formData.confirmPassword === formData.password
@@ -62,7 +51,7 @@ export default function SignupPage() {
         return 'Email is required.';
       }
 
-      return emailPattern.test(values.email.trim())
+      return EMAIL_PATTERN.test(values.email.trim())
         ? undefined
         : 'Enter a valid email address.';
     }
@@ -160,6 +149,8 @@ export default function SignupPage() {
       password: formData.password,
       confirmPassword: formData.confirmPassword,
     });
+
+    router.push('/');
   };
 
   return (
