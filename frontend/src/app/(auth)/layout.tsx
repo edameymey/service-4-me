@@ -19,7 +19,7 @@ export default function AuthLayout({
                 className="auth-brand-icon-image"
               />
             </span>
-            <p className="auth-brand-name">Service4me</p>
+            <p className="auth-brand-name">Service4Me</p>
           </div>
 
           <h1 className="auth-left-title">Trade hours, not dollars.</h1>
