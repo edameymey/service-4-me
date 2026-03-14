@@ -13,26 +13,38 @@ const CreatePage = () => {
   const [description, setDescription] = useState('');
   const [uploads, setUploads] = useState<UploadItem[]>([]);
   const [uploadError, setUploadError] = useState('');
+  const [servicePicture, setServicePicture] = useState<UploadItem[]>([]);
+  const [servicePictureError, setServicePictureError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const addPhotoRef = useRef<HTMLInputElement>(null);
+  const servicePictureInputRef = useRef<HTMLInputElement>(null);
+  const addServicePictureRef = useRef<HTMLInputElement>(null);
 
-  const handleAcceptedFiles = (files: File[]) => {
-    const currentTotalSize = uploads.reduce((total, item) => total + item.size, 0);
+  const handleAcceptedFiles = (
+    files: File[],
+    currentUploads: UploadItem[],
+    setUploadsState: React.Dispatch<React.SetStateAction<UploadItem[]>>,
+    setUploadErrorState: React.Dispatch<React.SetStateAction<string>>,
+    isFileTypeSupported: (type: string) => boolean
+  ) => {
+    const currentTotalSize = currentUploads.reduce(
+      (total, item) => total + item.size,
+      0
+    );
     let nextTotalSize = currentTotalSize;
     const acceptedFiles: File[] = [];
     const rejectedFiles: string[] = [];
 
     files.forEach((file) => {
-      const isSupportedType =
-        file.type.startsWith('image/') || file.type === 'application/pdf';
-
-      if (!isSupportedType) {
+      if (!isFileTypeSupported(file.type)) {
         rejectedFiles.push(`${file.name} (unsupported type)`);
         return;
       }
 
       if (nextTotalSize + file.size > MAX_TOTAL_SIZE_BYTES) {
-        rejectedFiles.push(`${file.name} (total limit ${MAX_TOTAL_SIZE_MB}MB exceeded)`);
+        rejectedFiles.push(
+          `${file.name} (total limit ${MAX_TOTAL_SIZE_MB}MB exceeded)`
+        );
         return;
       }
 
@@ -48,26 +60,68 @@ const CreatePage = () => {
     }));
 
     if (mappedFiles.length > 0) {
-      setUploads((prev) => [...prev, ...mappedFiles]);
+      setUploadsState((prev) => [...prev, ...mappedFiles]);
     }
 
     if (rejectedFiles.length > 0) {
-      setUploadError(`Some files were skipped: ${rejectedFiles.join(', ')}`);
+      setUploadErrorState(
+        `Some files were skipped: ${rejectedFiles.join(', ')}`
+      );
       return;
     }
 
-    setUploadError('');
+    setUploadErrorState('');
   };
 
   const handleFileDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const files = Array.from(e.dataTransfer.files);
-    handleAcceptedFiles(files);
+    handleAcceptedFiles(
+      files,
+      uploads,
+      setUploads,
+      setUploadError,
+      (type) => type.startsWith('image/') || type === 'application/pdf'
+    );
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files ?? []);
-    handleAcceptedFiles(files);
+    handleAcceptedFiles(
+      files,
+      uploads,
+      setUploads,
+      setUploadError,
+      (type) => type.startsWith('image/') || type === 'application/pdf'
+    );
+    e.target.value = '';
+  };
+
+  const handleServicePictureFileDrop = (
+    e: React.DragEvent<HTMLDivElement>
+  ) => {
+    e.preventDefault();
+    const files = Array.from(e.dataTransfer.files);
+    handleAcceptedFiles(
+      files,
+      servicePicture,
+      setServicePicture,
+      setServicePictureError,
+      (type) => type === 'image/png' || type === 'image/jpeg'
+    );
+  };
+
+  const handleServicePictureFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = Array.from(e.target.files ?? []);
+    handleAcceptedFiles(
+      files,
+      servicePicture,
+      setServicePicture,
+      setServicePictureError,
+      (type) => type === 'image/png' || type === 'image/jpeg'
+    );
     e.target.value = '';
   };
 
@@ -80,6 +134,7 @@ const CreatePage = () => {
       level,
       description,
       uploads,
+      servicePicture,
     });
   };
 
@@ -91,6 +146,7 @@ const CreatePage = () => {
       level,
       description,
       uploads,
+      servicePicture,
     });
   };
 
@@ -283,6 +339,91 @@ const CreatePage = () => {
                     multiple
                     className="hidden"
                     onChange={handleFileChange}
+                  />
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-3">
+            <label className="text-sm font-medium text-[#161c24]">Service Pictures</label>
+
+            <div
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={handleServicePictureFileDrop}
+              onClick={() => servicePictureInputRef.current?.click()}
+              className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-[#dfe3e8] bg-white py-8 transition-colors hover:border-[#85b065] hover:bg-[#ebf2e6]/30"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#ebf2e6]">
+                <UploadCloudIcon />
+              </div>
+              <p className="text-sm font-semibold text-[#161c24]">
+                Click to upload or drag and drop
+              </p>
+              <p className="text-xs text-[#919eab]">
+                PNG or JPEG (max. {MAX_TOTAL_SIZE_MB}MB total)
+              </p>
+              <input
+                ref={servicePictureInputRef}
+                type="file"
+                accept="image/png,image/jpeg"
+                multiple
+                className="hidden"
+                onChange={handleServicePictureFileChange}
+              />
+            </div>
+
+            {servicePictureError && (
+              <p className="text-xs font-medium text-[#d32f2f]">{servicePictureError}</p>
+            )}
+
+            {servicePicture.length > 0 && (
+              <div className="flex flex-wrap gap-3">
+                {servicePicture.map((item, i) => (
+                  <div
+                    key={i}
+                    className="relative h-24 w-24 overflow-hidden rounded-xl border border-[#dfe3e8]"
+                  >
+                    {item.type.startsWith('image/') ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={item.url}
+                        alt={`upload-${i}`}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full flex-col items-center justify-center bg-[#f7f8fa] p-2 text-center">
+                        <span className="text-xs font-semibold text-[#d32f2f]">PDF</span>
+                        <span className="mt-1 line-clamp-2 text-[10px] leading-3 text-[#637381]">
+                          {item.name}
+                        </span>
+                      </div>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setServicePicture((prev) => prev.filter((_, idx) => idx !== i))
+                      }
+                      className="absolute right-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/40 text-white hover:bg-black/60"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+
+                <button
+                  type="button"
+                  onClick={() => addServicePictureRef.current?.click()}
+                  className="flex h-24 w-24 items-center justify-center rounded-xl border-2 border-dashed border-[#dfe3e8] text-3xl text-[#919eab] hover:border-[#85b065] hover:text-[#85b065]"
+                >
+                  +
+                  <input
+                    ref={addServicePictureRef}
+                    type="file"
+                    accept="image/png,image/jpeg"
+                    multiple
+                    className="hidden"
+                    onChange={handleServicePictureFileChange}
                   />
                 </button>
               </div>
