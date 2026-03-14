@@ -119,7 +119,7 @@ const MainNavbar = () => {
         </button>
 
         <div className="hidden md:block">
-          <nav className="flex flex-nowrap items-center gap-8">
+          <nav className="flex flex-nowrap items-center gap-4">
             {topNavPrimaryItems.map((item) => (
               <button
                 key={item.label}
@@ -140,7 +140,7 @@ const MainNavbar = () => {
                   : 'max-w-0 -translate-x-2 opacity-0'
               }`}
             >
-              <div className="flex flex-nowrap items-center gap-8">
+              <div className="flex flex-nowrap items-center gap-4">
                 {topNavExtraItems.map((item) => (
                   <button
                     key={item.label}
@@ -168,7 +168,7 @@ const MainNavbar = () => {
               aria-label={
                 isFeaturesExpanded ? 'Collapse features' : 'Show more features'
               }
-              className="px-1 text-xl font-bold leading-none text-[#6f9662] transition hover:text-[#4f7d48]"
+              className="px-0.5 text-xl font-bold leading-none text-[#6f9662] transition hover:text-[#4f7d48]"
             >
               <span className="inline-block">
                 {isFeaturesExpanded ? '<' : '>'}
