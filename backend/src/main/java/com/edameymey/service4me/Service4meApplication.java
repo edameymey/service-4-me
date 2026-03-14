@@ -1,13 +1,13 @@
 package com.edameymey.service4me;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+/**
+ * Legacy placeholder kept to avoid accidental classpath issues in IDE at
+ * backend root.
+ * The active applications are in dedicated modules under backend/*-service and
+ * api-gateway.
+ */
+public final class Service4meApplication {
 
-@SpringBootApplication
-public class Service4meApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(Service4meApplication.class, args);
+	private Service4meApplication() {
 	}
-
 }
