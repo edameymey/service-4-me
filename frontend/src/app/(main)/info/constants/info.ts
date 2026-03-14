@@ -3,7 +3,7 @@ export const steps = [
         id: 'offer',
         title: '1. Offer a Skill',
         description:
-            "List what you love to do and share your talents with others. Whether it's gardening, coding, or baking.",
+            'List what you love to do and share your talents with others. Whether it\'s gardening, coding, or baking.',
         icon: 'spark',
     },
     {
@@ -26,7 +26,7 @@ export const values = [
     {
         id: 'community',
         title: 'Community Focus',
-        text: "Build meaningful relationships with those living near you. It's more than a transaction; it's a neighborhood bond.",
+        text: 'Build meaningful relationships with those living near you. It\'s more than a transaction; it\'s a neighborhood bond.',
         icon: 'users',
     },
     {
@@ -59,7 +59,7 @@ export const faqs = [
     {
         id: 'skills',
         question: 'Do I need any specific skills to start?',
-        answer: "Every skill can be somebody's need, so the answear is no.  ",
+        answer: 'Every skill can be somebody\'s need, so the answear is no.',
     },
     {
         id: 'verify',

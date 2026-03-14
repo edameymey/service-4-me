@@ -59,7 +59,7 @@ const reviews: Review[] = [
     initials: 'DC',
     rating: 5,
     timeAgo: '1 month ago',
-    text: "Clear and concise math tutoring for my son's finals. Great communicator and very professional. Traded for a professional photoshoot.",
+    text: 'Clear and concise math tutoring for my son\'s finals. Great communicator and very professional. Traded for a professional photoshoot.',
     service: 'Math Expert',
   },
 ];
@@ -69,7 +69,7 @@ const profile = {
   memberSince: 'Member since January 2022',
   rating: 4.9,
   exchanges: 48,
-  bio: "Dedicated educator with a passion for knowledge exchange. I've spent 10 years teaching mathematics and ESL. Looking to swap my academic skills for practical home maintenance and creative services.",
+  bio: 'Dedicated educator with a passion for knowledge exchange. I\'ve spent 10 years teaching mathematics and ESL. Looking to swap my academic skills for practical home maintenance and creative services.',
 };
 
 const ProfilePage = () => {
@@ -135,8 +135,8 @@ const ProfilePage = () => {
                     type="button"
                     onClick={() => logAction('navigate-profile-menu', item.id)}
                     className={`flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition ${item.active
-                        ? 'bg-[#edf4e7] text-[#5f955d]'
-                        : 'text-[#637381] hover:bg-[#f5f8fa]'
+                      ? 'bg-[#edf4e7] text-[#5f955d]'
+                      : 'text-[#637381] hover:bg-[#f5f8fa]'
                       }`}
                   >
                     <MenuIcon icon={item.icon} />
