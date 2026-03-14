@@ -20,3 +20,21 @@ export type NotificationEntry = {
   avatarColor: string;
   unread: boolean;
 };
+
+export type NotificationsHeaderProps = {
+  unreadCount: number;
+  onMarkAllAsRead: () => void;
+};
+
+export type NotificationRowProps = {
+  item: NotificationEntry;
+  hasBorder: boolean;
+  onMarkOneAsRead: (id: string) => void;
+  onOpenNotificationMenu: (id: string) => void;
+};
+
+export type NotificationsListProps = {
+  notifications: NotificationEntry[];
+  onMarkOneAsRead: (id: string) => void;
+  onOpenNotificationMenu: (id: string) => void;
+};

@@ -1,9 +1,5 @@
 import { BellIcon } from '../svgs/BellIcon';
-
-type NotificationsHeaderProps = {
-  unreadCount: number;
-  onMarkAllAsRead: () => void;
-};
+import { NotificationsHeaderProps } from '../types/notifications';
 
 export const NotificationsHeader = ({
   unreadCount,

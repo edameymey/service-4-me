@@ -1,12 +1,5 @@
-import { NotificationEntry } from '../types/notifications';
+import { NotificationRowProps } from '../types/notifications';
 import { DotsIcon } from '../svgs/DotsIcon';
-
-type NotificationRowProps = {
-  item: NotificationEntry;
-  hasBorder: boolean;
-  onMarkOneAsRead: (id: string) => void;
-  onOpenNotificationMenu: (id: string) => void;
-};
 
 export const NotificationRow = ({
   item,

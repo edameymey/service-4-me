@@ -1,12 +1,6 @@
 import { GROUP_LABELS, GROUP_ORDER } from '../constants/notifications';
-import { NotificationEntry } from '../types/notifications';
+import { NotificationsListProps } from '../types/notifications';
 import { NotificationRow } from './NotificationRow';
-
-type NotificationsListProps = {
-  notifications: NotificationEntry[];
-  onMarkOneAsRead: (id: string) => void;
-  onOpenNotificationMenu: (id: string) => void;
-};
 
 export const NotificationsList = ({
   notifications,
