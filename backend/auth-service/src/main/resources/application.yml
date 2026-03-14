@@ -1,0 +1,27 @@
+server:
+  port: 8081
+
+spring:
+  profiles:
+    default: local
+  application:
+    name: auth-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+grpc:
+  server:
+    port: 9091
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true

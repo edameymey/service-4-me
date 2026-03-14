@@ -1,13 +1,7 @@
 package com.edameymey.service4me;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
+/**
+ * Legacy placeholder test file for the backend aggregator root.
+ */
 class Service4meApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
 }
