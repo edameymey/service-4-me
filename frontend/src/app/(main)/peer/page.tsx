@@ -11,7 +11,7 @@ const peer = {
 
 const stats = [
   { id: 'swaps', label: 'Total Swaps', value: '142' },
-  { id: 'monthly-swaps', label: "This Month's Swaps", value: '18' },
+  { id: 'monthly-swaps', label: 'This Month\'s Swaps', value: '18' },
 ] as const;
 
 const skills = [

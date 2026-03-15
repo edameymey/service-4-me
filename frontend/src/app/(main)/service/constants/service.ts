@@ -18,7 +18,7 @@ export const SERVICE_DETAILS: ServiceDetail = {
   format: 'Remote or In-person',
   title: 'Math Tutoring (2 Hours)',
   description:
-    "Personalized tutoring for Algebra, Calculus, or SAT preparation. I have 3 years of experience helping students improve their scores and confidence. I'll provide practice problems and clear explanations.",
+    'Personalized tutoring for Algebra, Calculus, or SAT preparation. I have 3 years of experience helping students improve their scores and confidence. I\'ll provide practice problems and clear explanations.',
   tutor: {
     id: 'alex-rivera',
     name: 'Alex Rivera',
