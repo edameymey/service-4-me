@@ -1,15 +1,16 @@
 import {
   AvailabilitySlot,
   FeatureIconKey,
+  MenuIconKey,
   ReviewSummary,
   ServiceDetail,
   SidebarMenuItem,
 } from '../types/service';
 
 export const MENU_ITEMS: SidebarMenuItem[] = [
-  { id: 'overview', label: 'Overview', icon: 'overview' },
-  { id: 'availability', label: 'Availability', icon: 'availability' },
-  { id: 'reviews', label: 'Reviews (24)', icon: 'reviews' },
+  { id: 'overview', label: 'Overview', icon: MenuIconKey.OVERVIEW },
+  { id: 'availability', label: 'Availability', icon: MenuIconKey.AVAILABILITY },
+  { id: 'reviews', label: 'Reviews (24)', icon: MenuIconKey.REVIEWS },
 ];
 
 export const SERVICE_DETAILS: ServiceDetail = {
