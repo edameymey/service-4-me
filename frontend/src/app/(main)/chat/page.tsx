@@ -43,7 +43,7 @@ const messagesByConversation: Record<string, Message[]> = {
     {
       id: 'm1',
       sender: MessageSender.Them,
-      text: "Hi! I saw you were offering English tutoring. I'd love to swap my car repair services for a few sessions.",
+      text: 'Hi! I saw you were offering English tutoring. I\'d love to swap my car repair services for a few sessions.',
       time: '10:15 AM',
     },
     {
@@ -160,9 +160,8 @@ const ChatPage = () => {
                       setActiveConversationId(conversation.id);
                       logAction('select-conversation', conversation.id);
                     }}
-                    className={`relative flex w-full items-start gap-3 px-5 py-4 text-left transition ${
-                      isActive ? 'bg-[#f6f9f6]' : 'bg-white hover:bg-[#f8fafc]'
-                    }`}
+                    className={`relative flex w-full items-start gap-3 px-5 py-4 text-left transition ${isActive ? 'bg-[#f6f9f6]' : 'bg-white hover:bg-[#f8fafc]'
+                      }`}
                   >
                     {isActive ? (
                       <span className="absolute left-0 top-0 h-full w-1 rounded-r-full bg-[#7fa87f]" />
@@ -196,9 +195,8 @@ const ChatPage = () => {
         </section>
 
         <section
-          className={`flex h-full min-h-0 flex-col border-b border-r border-[#d9e0e7] bg-[#f4f7f9] xl:border-b-0 xl:transition-[padding-right] xl:duration-300 xl:ease-out ${
-            isTradeDetailsOpen ? 'xl:pr-[360px]' : 'xl:pr-0'
-          }`}
+          className={`flex h-full min-h-0 flex-col border-b border-r border-[#d9e0e7] bg-[#f4f7f9] xl:border-b-0 xl:transition-[padding-right] xl:duration-300 xl:ease-out ${isTradeDetailsOpen ? 'xl:pr-[360px]' : 'xl:pr-0'
+            }`}
         >
           <header className="flex items-center justify-between border-b border-[#dbe3ea] bg-white px-5 py-4">
             <div className="flex items-center">
@@ -237,11 +235,10 @@ const ChatPage = () => {
                     className={`max-w-[82%] ${isMe ? 'ml-auto text-right' : ''}`}
                   >
                     <div
-                      className={`inline-block rounded-3xl px-5 py-4 text-left text-base leading-6 ${
-                        isMe
+                      className={`inline-block rounded-3xl px-5 py-4 text-left text-base leading-6 ${isMe
                           ? 'bg-[#89a88a] text-white'
                           : 'bg-white text-[#2b394c] shadow-[0_1px_2px_rgba(25,35,50,0.06)] ring-1 ring-[#e6ebf0]'
-                      }`}
+                        }`}
                     >
                       {message.text}
                     </div>
@@ -314,9 +311,8 @@ const ChatPage = () => {
         </button>
 
         <aside
-          className={`absolute right-0 top-0 z-10 hidden h-full w-[360px] min-h-0 flex-col overflow-y-auto border-l border-[#d9e0e7] bg-[#f7f9fb] p-5 transition-transform duration-300 ease-out xl:flex ${
-            isTradeDetailsOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
+          className={`absolute right-0 top-0 z-10 hidden h-full w-[360px] min-h-0 flex-col overflow-y-auto border-l border-[#d9e0e7] bg-[#f7f9fb] p-5 transition-transform duration-300 ease-out xl:flex ${isTradeDetailsOpen ? 'translate-x-0' : 'translate-x-full'
+            }`}
         >
           <h3 className="text-3xl font-extrabold tracking-tight text-[#1f2a44]">
             Trade Details
