@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import type { Conversation, Message } from './types/chat';
+import { MessageSender, type Conversation, type Message } from './types/chat';
 import {
   CalendarIcon,
   InfoIcon,
@@ -42,19 +42,19 @@ const messagesByConversation: Record<string, Message[]> = {
   david: [
     {
       id: 'm1',
-      sender: 'them',
+      sender: MessageSender.Them,
       text: "Hi! I saw you were offering English tutoring. I'd love to swap my car repair services for a few sessions.",
       time: '10:15 AM',
     },
     {
       id: 'm2',
-      sender: 'me',
+      sender: MessageSender.Me,
       text: 'That sounds like a perfect trade! I definitely need some work done on my transmission. How many sessions were you thinking?',
       time: '10:22 AM · Read',
     },
     {
       id: 'm3',
-      sender: 'them',
+      sender: MessageSender.Them,
       text: 'Maybe 4 sessions for the full inspection and repair? I can come by this weekend if that works for you. Looking forward to the car repair!',
       time: '10:30 AM',
     },
@@ -62,7 +62,7 @@ const messagesByConversation: Record<string, Message[]> = {
   sarah: [
     {
       id: 's1',
-      sender: 'them',
+      sender: MessageSender.Them,
       text: 'Thanks again for the tutoring session. It really helped!',
       time: 'Yesterday',
     },
@@ -70,7 +70,7 @@ const messagesByConversation: Record<string, Message[]> = {
   michael: [
     {
       id: 'c1',
-      sender: 'them',
+      sender: MessageSender.Them,
       text: 'Sent you the address for the pickup. See you tomorrow.',
       time: 'Tue',
     },
@@ -229,7 +229,7 @@ const ChatPage = () => {
 
             <div className="mt-5 space-y-5">
               {threadMessages.map((message) => {
-                const isMe = message.sender === 'me';
+                const isMe = message.sender === MessageSender.Me;
 
                 return (
                   <article

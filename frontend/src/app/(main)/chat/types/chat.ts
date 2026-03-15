@@ -7,9 +7,14 @@ export type Conversation = {
   activeNow?: boolean;
 };
 
+export enum MessageSender {
+  Me = 'me',
+  Them = 'them',
+}
+
 export type Message = {
   id: string;
-  sender: 'me' | 'them';
+  sender: MessageSender;
   text: string;
   time: string;
 };
