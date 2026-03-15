@@ -109,11 +109,11 @@ const MainNavbar = ()=>{
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                 src: "/logo/logo_it.png",
                                 alt: "Service4Me logo",
-                                width: 28,
-                                height: 28,
-                                className: "h-7 w-7 cursor-pointer rounded-full object-cover",
+                                width: 34,
+                                height: 34,
+                                className: "h-8 w-8 cursor-pointer rounded-full object-cover",
                                 priority: true,
-                                onClick: ()=>router.push('/profile')
+                                onClick: ()=>router.push('/')
                             }, void 0, false, {
                                 fileName: "[project]/src/components/MainNavbar.tsx",
                                 lineNumber: 84,
