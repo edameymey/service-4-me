@@ -13,7 +13,7 @@ export const StarIcon = () => (
 );
 
 export const MenuItemIcon = ({ icon }: { icon: MenuIconKey }) => {
-  if (icon === 'overview') {
+  if (icon === MenuIconKey.OVERVIEW) {
     return (
       <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
         <path d="M3 11l9-7 9 7v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9z" />
@@ -21,7 +21,7 @@ export const MenuItemIcon = ({ icon }: { icon: MenuIconKey }) => {
     );
   }
 
-  if (icon === 'availability') {
+  if (icon === MenuIconKey.AVAILABILITY) {
     return (
       <svg
         viewBox="0 0 24 24"
@@ -36,7 +36,7 @@ export const MenuItemIcon = ({ icon }: { icon: MenuIconKey }) => {
     );
   }
 
-  if (icon === 'reviews') {
+  if (icon === MenuIconKey.REVIEWS) {
     return (
       <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
         <path d="M4 4h16v12H7l-3 3V4z" />
@@ -44,7 +44,7 @@ export const MenuItemIcon = ({ icon }: { icon: MenuIconKey }) => {
     );
   }
 
-  if (icon === 'badges') {
+  if (icon === MenuIconKey.BADGES) {
     return (
       <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor">
         <path d="M12 2l7 3v6c0 5-3.3 9.6-7 11-3.7-1.4-7-6-7-11V5l7-3z" />

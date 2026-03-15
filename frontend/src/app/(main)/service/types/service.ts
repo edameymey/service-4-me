@@ -1,9 +1,10 @@
-export type MenuIconKey =
-  | 'overview'
-  | 'availability'
-  | 'reviews'
-  | 'badges'
-  | 'message';
+export enum MenuIconKey {
+  OVERVIEW = 'overview',
+  AVAILABILITY = 'availability',
+  REVIEWS = 'reviews',
+  BADGES = 'badges',
+  MESSAGE = 'message',
+}
 
 export enum FeatureIconKey {
   DURATION = 'duration',
